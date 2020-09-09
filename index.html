@@ -17,6 +17,10 @@
                 }
             }
 
+            let food = randomXY();
+            let direction;
+            let score = 0;
+
             const snake = [];
             snake[0] = randomXY();
 
@@ -28,9 +32,15 @@
             const foodImg = new Image();
             foodImg.src = "images/food.png";
 
-            let food = randomXY();
-            let direction;
-            let score = 0;
+            const leftAudio = new Audio("audio/left.mp3");
+            const rightAudio = new Audio("audio/right.mp3");
+            const upAudio = new Audio("audio/up.mp3");
+            const downAudio = new Audio("audio/down.mp3");
+            const eatAudio = new Audio("audio/eat.mp3");
+            const deadAudio = new Audio("audio/dead.mp3");
+
+
+    
 
             const gameDrawing = setInterval(function() {
               canvasCtx.drawImage(groundImg, 0, 0);
@@ -58,6 +68,8 @@
                 /* verificação de game over*/
                 if(snakeX < box || snakeY < box*3 || snakeX > box*17 || snakeY > box*17 || collisionChecker(snake)) {
 
+                    deadAudio.play();
+
                     alert ("GAME OVER");
 
                     clearInterval(gameDrawing);
@@ -69,6 +81,8 @@
 
                 if(snakeX === food.x && snakeY === food.y) {
                     /* comeu */
+                    eatAudio.play();
+
                     food = randomXY();
                     score++;
                 }
@@ -114,18 +128,26 @@
             document.addEventListener("keydown", (e) => {
                
                 if(e.keyCode === 37 && direction != "right") {
+                    rightAudio.play();
+
                    
                     direction = "left";
                 }
                 if(e.keyCode === 38 && direction != "down") {
+                    downAudio.play();
+
                     
                     direction = "up";
                 }
                 if(e.keyCode === 39 && direction != "left") {
+                    leftAudio.play();
+
                     
                     direction = "right";
                 }
                 if(e.keyCode === 40 && direction != "up") {
+                    upAudio.play();
+
                   
                     direction = "down";
                 }
